@@ -35,23 +35,19 @@ func getCustomers(writer http.ResponseWriter, _ *http.Request) {
 
 func getCustomer(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	if idString, ok := params["id"]; !ok {
-		Error(writer, fmt.Sprintf("bad request"), http.StatusBadRequest)
-	} else {
+	if idString, ok := params["id"]; ok {
 		id, err := strconv.ParseInt(idString, 10, 64)
-		if err != nil {
-			Error(writer, fmt.Sprintf("invalid id %s", idString), http.StatusBadRequest)
-		} else {
+		if err == nil {
 			c := customers.GetCustomerById(id)
-			if c == nil {
-				Error(writer, fmt.Sprintf("unknown id %d", id), http.StatusNotFound)
-			} else {
+			if c != nil {
 				setJson(writer)
 				data, _ := c.ToJSON()
 				_, _ = writer.Write([]byte(data))
+				return
 			}
 		}
 	}
+	Error(writer, fmt.Sprintf("bad request"), http.StatusNotFound)
 }
 
 func addCustomer(writer http.ResponseWriter, request *http.Request) {
@@ -102,7 +98,7 @@ func updateCustomer(writer http.ResponseWriter, request *http.Request) {
 
 func deleteCustomer(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	err := fmt.Errorf("invalid request")
+	err := fmt.Errorf("not found")
 	if idString, ok := params["id"]; ok {
 		id, err := strconv.ParseInt(idString, 10, 64)
 		if err == nil {
@@ -115,13 +111,10 @@ func deleteCustomer(writer http.ResponseWriter, request *http.Request) {
 				writer.WriteHeader(http.StatusOK)
 				_, _ = writer.Write([]byte(data))
 				return
-			} else {
-				Error(writer, err.Error(), http.StatusNotFound)
-				return
 			}
 		}
 	}
-	Error(writer, err.Error(), http.StatusBadRequest)
+	Error(writer, err.Error(), http.StatusNotFound)
 }
 
 func ReadCustomerData(filename string) error {

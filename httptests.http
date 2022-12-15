@@ -1,0 +1,60 @@
+### IntelliJ http client tests
+
+### load the test data (14 entries)
+POST http://localhost:4000/load-test-data
+Accept: application/json
+Content-Type: application/json
+
+{"path": "crm/data/customers.json"}
+
+### get all customers
+GET http://localhost:4000/customers
+Accept: application/json
+
+### get a specific customer
+GET http://localhost:4000/customers/5
+Accept: application/json
+
+### Update a specific record
+PUT http://localhost:4000/customers/5
+Accept: application/json
+Content-Type: application/json
+
+{
+  "role": "staff",
+  "email": "bbruxner@people.au",
+  "contacted": false
+}
+
+### Create a new customer
+POST http://localhost:4000/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Bill Gates",
+  "role": "teacher",
+  "email": "bill.gates@microsoft.com",
+  "phone": "(555) 555 5555"
+}
+
+### Create another new customer
+POST http://localhost:4000/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Elon Musk",
+  "role": "director",
+  "email": "em@tesla.com",
+  "phone": "(999) 555 0000"
+}
+
+### Delete bill
+DELETE http://localhost:4000/customers/20
+Accept: application/json
+
+### Then try to fetch that record for a 404
+GET http://localhost:4000/customers/20
+Accept: application/json
+

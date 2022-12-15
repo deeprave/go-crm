@@ -45,7 +45,7 @@
             <li>delete a specific customer <code>DELETE /customers/{id}</code></li>
         </ul>
 
-        <p>Each customer record consists of an Id (assigned on creation), a name, role, email phone number
+        <p>Each customer record consists of an id (assigned on creation), a name, role, email phone number
             and a "sticky" (stays true once set) contacted field that indicates whether that customer has
             been contacted.
         </p>
@@ -58,11 +58,11 @@
         <h2>Modules & code</h2>
         <p>This project is structured as follows:</p>
         <ul>
-            <li><code>github.com/deeprave/go-crm</code> is the project root. It contains the following two sub-modules:</li>
+            <li><code>github.com/deeprave/go-crm</code> is the project root. It contains the following two submodules:
             <ul>
                 <li><code>crm</code> contains the customer "database"</li>
                 <li><code>api</code> contains the api including handlers</li>
-            </ul>
+            </ul></li>
         </ul>
 
         <p>All source code files have high test coverage in the provided *_test.go files and may be run using:
@@ -76,17 +76,29 @@
 
         <p><code>api/crm_test.go</code> contains httptest tests that interact with and test the handlers.</p>
 
+        <h3>Udacity http test</h3>
+
+        <p><code>api/main_test.go</code> is the Udacity unit test, placed in the module in which the handlers are defined.</p>
+
+        <p style="margin-left: 3em; margin-right: 3em; font-weight: bolder;">
+        An important change was made to this test unit. Phone numbers in Australia
+        start with the digit "0" which is lost if phone number is a numeric type.
+        This API therefore uses a string for the Phone field in the Customer struct so the phone
+        number provided in the addCustomer request needed to be quoted.
+        </p>
+
+        <h3>Additional paths</h3>
         <p>The `main.go` module defines two additional url paths:</p>
         <ul>
             <li><code>GET /</code> displays <code>public/index.html</code>, which contains the present content</li>
             <li><code>POST /load-test-data</code> allows loading some suitable test data in json format into the server.</li>
+        </ul>
             <p>In the body of the request, place the path to the file to load, e..g:</p>
             <pre>
 {
     "path": "crm/data/customers.json"
 }
             </pre>
-        </ul>
     </div>
 </main>
 </body>

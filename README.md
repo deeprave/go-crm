@@ -39,7 +39,7 @@ as the only third party library. All other functionality is provided by Go's sta
 
 ## Modules & code
 This project is structured as follows:
-- `github.com/deeprave/go-crm` is the project root. It contains the following two sub-modules:
+- `github.com/deeprave/go-crm` is the project root. It contains the following two submodules:
   - `crm` contains the customer "database"
   - `api` contains the api including handlers
 
@@ -52,6 +52,17 @@ This file may be used directly by any Jetbrains IDE to run the requests, which r
 that the server itself is running.
 
 `api/crm_test.go` contains httptest tests that interact with and test the handlers.
+
+### Udacity http test
+
+`api/main_test.go` is the Udacity unit test, placed in the module in which the handlers are defined.
+
+> **An important change was made to this test unit. Phone numbers in Australia
+> start with the digit "0" which is lost if phone number is a numeric type.
+> This API therefore uses a string for the Phone field in the Customer struct so the phone
+> number provided in the addCustomer request needed to be quoted.**
+
+### Additional paths
 
 The `main.go` module defines two additional url paths:
 - `GET /` displays `public/index.html`, which contains the present content
